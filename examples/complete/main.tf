@@ -9,6 +9,7 @@ module "vpc" {
   name        = var.name
   cidr_block  = var.cidr_block
   description = "Complete example for terraform-volcenginecc-vpc"
+  enable_ipv6 = true
 
   dns_servers = var.dns_servers
 
