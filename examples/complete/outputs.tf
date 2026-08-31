@@ -13,6 +13,16 @@ output "cidr_block" {
   value       = module.vpc.cidr_block
 }
 
+output "enable_ipv6" {
+  description = "Whether IPv6 is enabled for the example VPC."
+  value       = module.vpc.enable_ipv6
+}
+
+output "ipv6_cidr_block" {
+  description = "Automatically allocated IPv6 CIDR of the example VPC."
+  value       = module.vpc.ipv6_cidr_block
+}
+
 output "secondary_cidr_blocks" {
   description = "Secondary IPv4 CIDRs of the example VPC."
   value       = module.vpc.secondary_cidr_blocks

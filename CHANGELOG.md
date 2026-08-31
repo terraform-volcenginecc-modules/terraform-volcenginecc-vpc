@@ -15,6 +15,7 @@ All notable changes to this module will be documented in this file.
 
 ### Fixed
 
+- Enabled IPv6 in the complete example and exposed its IPv6 status and allocated CIDR as example outputs.
 - Corrected the complete and secondary-CIDR examples to use one non-overlapping secondary CIDR from the same private address range as the primary CIDR.
 - Rejected empty collection inputs that Provider v0.0.60 reads back as `null` and would otherwise cause a permanent plan difference.
 - Added validation for the documented one-secondary-CIDR quota, canonical private ranges, and primary/secondary range compatibility.
