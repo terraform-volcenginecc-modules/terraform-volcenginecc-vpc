@@ -11,7 +11,7 @@ variable "existing_vpc_id" {
   default     = null
 
   validation {
-    condition     = var.existing_vpc_id == null || trimspace(var.existing_vpc_id) != ""
+    condition     = var.existing_vpc_id == null ? true : trimspace(var.existing_vpc_id) != ""
     error_message = "existing_vpc_id must be null or a non-empty VPC ID."
   }
 }
@@ -22,12 +22,12 @@ variable "name" {
   default     = null
 
   validation {
-    condition     = var.name == null || (length(trimspace(var.name)) >= 1 && length(var.name) <= 128)
+    condition     = var.name == null ? true : (length(trimspace(var.name)) >= 1 && length(var.name) <= 128)
     error_message = "name must be null or contain between 1 and 128 characters."
   }
 
   validation {
-    condition     = var.name == null || can(regex("^[\\p{L}\\p{N}][\\p{L}\\p{N}._-]*$", var.name))
+    condition     = var.name == null ? true : can(regex("^[\\p{L}\\p{N}][\\p{L}\\p{N}._-]*$", var.name))
     error_message = "name must start with a letter or number and may contain only letters, numbers, periods, underscores, and hyphens."
   }
 }
@@ -38,12 +38,12 @@ variable "cidr_block" {
   default     = null
 
   validation {
-    condition     = var.cidr_block == null || can(cidrnetmask(var.cidr_block))
+    condition     = var.cidr_block == null ? true : can(cidrnetmask(var.cidr_block))
     error_message = "cidr_block must be a valid IPv4 CIDR."
   }
 
   validation {
-    condition = var.cidr_block == null || try(
+    condition = var.cidr_block == null ? true : try(
       cidrhost(var.cidr_block, 0) == split("/", var.cidr_block)[0] &&
       tonumber(split("/", var.cidr_block)[1]) <= 24 &&
       (
@@ -75,12 +75,12 @@ variable "description" {
   default     = null
 
   validation {
-    condition     = var.description == null || length(var.description) <= 255
+    condition     = var.description == null ? true : length(var.description) <= 255
     error_message = "description must contain at most 255 characters."
   }
 
   validation {
-    condition     = var.description == null || var.description == "" || can(regex("^[\\p{L}\\p{N}][\\p{L}\\p{N},._ =\\-，。]*$", var.description))
+    condition     = var.description == null ? true : (var.description == "" || can(regex("^[\\p{L}\\p{N}][\\p{L}\\p{N},._ =\\-，。]*$", var.description)))
     error_message = "description must start with a letter or number and contain only supported punctuation; URL prefixes are not allowed."
   }
 }
@@ -91,17 +91,17 @@ variable "dns_servers" {
   default     = null
 
   validation {
-    condition     = var.dns_servers == null || length(var.dns_servers) <= 5
+    condition     = var.dns_servers == null ? true : length(var.dns_servers) <= 5
     error_message = "dns_servers must contain at most five addresses."
   }
 
   validation {
-    condition     = var.dns_servers == null || length(var.dns_servers) > 0
+    condition     = var.dns_servers == null ? true : length(var.dns_servers) > 0
     error_message = "dns_servers must be null or contain at least one address; empty sets are not supported because Provider v0.0.60 reads them back as null."
   }
 
   validation {
-    condition = var.dns_servers == null || alltrue([
+    condition = var.dns_servers == null ? true : alltrue([
       for address in var.dns_servers :
       can(cidrhost("${address}/32", 0)) || can(cidrhost("${address}/128", 0))
     ])
@@ -115,7 +115,7 @@ variable "secondary_cidr_blocks" {
   default     = null
 
   validation {
-    condition = var.secondary_cidr_blocks == null || alltrue([
+    condition = var.secondary_cidr_blocks == null ? true : alltrue([
       for cidr in var.secondary_cidr_blocks : can(cidrnetmask(cidr))
     ])
     error_message = "Every secondary_cidr_blocks entry must be a valid IPv4 CIDR."
@@ -123,12 +123,12 @@ variable "secondary_cidr_blocks" {
 
 
   validation {
-    condition     = var.secondary_cidr_blocks == null || length(var.secondary_cidr_blocks) == 1
+    condition     = var.secondary_cidr_blocks == null ? true : length(var.secondary_cidr_blocks) == 1
     error_message = "secondary_cidr_blocks must be null or contain exactly one CIDR; Volcengine supports at most one secondary IPv4 CIDR per VPC."
   }
 
   validation {
-    condition = var.secondary_cidr_blocks == null || alltrue([
+    condition = var.secondary_cidr_blocks == null ? true : alltrue([
       for cidr in var.secondary_cidr_blocks : try(
         cidrhost(cidr, 0) == split("/", cidr)[0] &&
         tonumber(split("/", cidr)[1]) <= 28 &&
@@ -162,7 +162,7 @@ variable "user_cidr_blocks" {
   default     = null
 
   validation {
-    condition = var.user_cidr_blocks == null || alltrue([
+    condition = var.user_cidr_blocks == null ? true : alltrue([
       for cidr in var.user_cidr_blocks : can(cidrnetmask(cidr))
     ])
     error_message = "Every user_cidr_blocks entry must be a valid IPv4 CIDR."
@@ -170,7 +170,7 @@ variable "user_cidr_blocks" {
 
 
   validation {
-    condition     = var.user_cidr_blocks == null || length(var.user_cidr_blocks) > 0
+    condition     = var.user_cidr_blocks == null ? true : length(var.user_cidr_blocks) > 0
     error_message = "user_cidr_blocks must be null or non-empty; empty sets are not supported because Provider v0.0.60 reads them back as null."
   }
 }
@@ -187,7 +187,7 @@ variable "project_name" {
   default     = null
 
   validation {
-    condition     = var.project_name == null || trimspace(var.project_name) != ""
+    condition     = var.project_name == null ? true : trimspace(var.project_name) != ""
     error_message = "project_name must be null or a non-empty project name."
   }
 }
@@ -198,7 +198,7 @@ variable "tags" {
   default     = null
 
   validation {
-    condition = var.tags == null || alltrue([
+    condition = var.tags == null ? true : alltrue([
       for key in keys(var.tags) : trimspace(key) != ""
     ])
     error_message = "Tag keys must not be empty."
@@ -206,7 +206,7 @@ variable "tags" {
 
 
   validation {
-    condition     = var.tags == null || length(var.tags) > 0
+    condition     = var.tags == null ? true : length(var.tags) > 0
     error_message = "tags must be null or non-empty; empty maps are not supported because Provider v0.0.60 reads them back as null."
   }
 }

@@ -7,4 +7,4 @@ terraform apply -var='existing_vpc_id=vpc-xxxxxxxx'
 terraform destroy -var='existing_vpc_id=vpc-xxxxxxxx'
 ```
 
-Destroy removes only the Module data from Terraform state; it must not delete the existing VPC.
+Destroy removes only the module entry from the Terraform state; it does not delete the existing VPC.

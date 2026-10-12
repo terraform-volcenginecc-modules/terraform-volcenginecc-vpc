@@ -39,7 +39,7 @@ provider "volcenginecc" {
 }
 ```
 
-Use environment variables, a profile, or another supported credential source. Do not put access keys in Module configuration.
+Use environment variables, a profile, or another supported credential source. Do not put access keys in module configuration.
 
 ## Existing VPC
 
@@ -57,11 +57,11 @@ Creation inputs must remain unset in existing mode. This prevents configuration 
 
 ## Examples
 
-- [basic](examples/basic): creates a minimal IPv4 VPC.
-- [complete](examples/complete): covers the stable VPC inputs.
-- [secondary-cidr-blocks](examples/secondary-cidr-blocks): isolates secondary CIDR behavior.
-- [existing-vpc](examples/existing-vpc): reads an explicitly identified VPC without taking ownership.
-- [ipv6-dualstack](examples/ipv6-dualstack): creates an IPv4/IPv6 dual-stack VPC with an automatically allocated IPv6 CIDR.
+- basic: creates a minimal IPv4 VPC.
+- complete: covers the stable VPC inputs.
+- secondary-cidr-blocks: isolates secondary CIDR behavior.
+- existing-vpc: reads an explicitly identified VPC without taking ownership.
+- ipv6-dualstack: creates an IPv4/IPv6 dual-stack VPC with an automatically allocated IPv6 CIDR.
 
 ## Requirements
 
@@ -69,10 +69,6 @@ Creation inputs must remain unset in existing mode. This prevents configuration 
 |---|---|
 | Terraform | `>= 1.5.0` |
 | `volcengine/volcenginecc` | `>= 0.0.60` |
-
-The supported create, update, no-change, existing-VPC, replacement-plan, and destroy scenarios were verified against a real `cn-beijing` account with Provider `0.0.60`. Collection clearing remains a Provider-blocked publication gate; see [real-cloud validation](docs/real-cloud-validation.md).
-
-Reusable acceptance fixtures are retained in [tests](tests).
 
 ## Providers
 
@@ -128,7 +124,7 @@ Reusable acceptance fixtures are retained in [tests](tests).
 - The module does not automatically discover the default VPC because the current plural VPC data source cannot filter by `is_default`.
 - `enable_ipv6 = true` was verified for creation, refresh, a second no-change Plan, Existing VPC reads, and destroy. The Provider field is write-only; toggling it in place succeeds but the immediately following Plan contains a refresh-only IPv6 CIDR Output change. Treat it as a creation-time setting.
 - A custom IPv6 CIDR input is not exposed because add/change/remove could not be safely verified with an account-owned prefix.
-- IPv4 Gateway is intentionally read-only in this module. Supplying `support_ipv_4_gateway` and an unattached `ipv_4_gateway_id` during VPC creation does not attach or enable the Gateway. A native API workflow must create the Gateway, attach it to the VPC, add an `Ipv4GW` default route, and enable it before the Provider reads back the configured values. The retained spike covers this dependency and reaches a no-change Plan after native setup.
+- IPv4 Gateway is intentionally read-only in this module. Supplying `support_ipv_4_gateway` and an unattached `ipv_4_gateway_id` during VPC creation does not attach or enable the Gateway. A native API workflow must create the Gateway, attach it to the VPC, add an `Ipv4GW` default route, and enable it before the Provider reads back the configured values.
 - The module validates CIDR syntax, documented private ranges, the one-secondary-CIDR quota, and that primary and secondary CIDRs use the same private address range. Cloud-side overlap rules still apply.
 - For `dns_servers`, `secondary_cidr_blocks`, `user_cidr_blocks`, and `tags`, use `null` to leave the setting unspecified and a non-empty collection to manage it. Empty collections are rejected because Provider v0.0.60 reads them back as `null`, which otherwise causes a permanent plan difference. Changing a managed non-empty collection to `null` stops declaring it; it does not clear the cloud-side value.
 - `route_table_ids` is diagnostic read-only information. This module does not own those route tables.

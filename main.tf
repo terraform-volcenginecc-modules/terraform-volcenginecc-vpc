@@ -37,7 +37,7 @@ resource "volcenginecc_vpc_vpc" "this" {
     }
 
     precondition {
-      condition = var.secondary_cidr_blocks == null || try(alltrue([
+      condition = var.secondary_cidr_blocks == null ? true : try(alltrue([
         for secondary_cidr in var.secondary_cidr_blocks :
         (
           tonumber(split(".", cidrhost(var.cidr_block, 0))[0]) == 10 &&
@@ -113,7 +113,7 @@ locals {
   provider_tags = var.create_vpc ? volcenginecc_vpc_vpc.this[0].tags : data.volcenginecc_vpc_vpc.existing[0].tags
 
   normalized_tags = local.provider_tags == null ? tomap({}) : tomap({
-    for tag in local.provider_tags : tag.key => coalesce(tag.value, "")
+    for tag in local.provider_tags : tag.key => tag.value == null ? "" : tag.value
   })
 
   route_table_ids = var.create_vpc ? volcenginecc_vpc_vpc.this[0].route_table_ids : data.volcenginecc_vpc_vpc.existing[0].route_table_ids

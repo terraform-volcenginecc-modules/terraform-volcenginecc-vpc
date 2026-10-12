@@ -11,7 +11,6 @@ All notable changes to this module will be documented in this file.
 - Support for primary and secondary IPv4 CIDRs, user CIDRs, DNS servers, project assignment, and tags.
 - Basic, complete, secondary CIDR, and existing VPC examples.
 - Creation-time IPv6 enablement with normalized IPv6 Outputs and a dual-stack example.
-- Retained IPv6 lifecycle and IPv4 Gateway Provider-spike fixtures under `tests/`.
 
 ### Fixed
 
