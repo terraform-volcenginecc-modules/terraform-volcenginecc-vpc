@@ -3,7 +3,7 @@ provider "volcenginecc" {
 }
 
 module "vpc" {
-  source  = "volcengine/vpc/volcenginecc"
+  source  = "terraform-volcenginecc-modules/vpc/volcenginecc"
   version = "~> 1.0"
 
   name        = var.name

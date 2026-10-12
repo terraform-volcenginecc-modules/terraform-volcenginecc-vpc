@@ -17,7 +17,7 @@ Do not toggle `create_vpc` in place. Changing from create mode to existing mode 
 
 ```hcl
 module "vpc" {
-  source  = "volcengine/vpc/volcenginecc"
+  source  = "terraform-volcenginecc-modules/vpc/volcenginecc"
   version = "~> 1.0"
 
   name       = "example-vpc"
@@ -45,7 +45,7 @@ Use environment variables, a profile, or another supported credential source. Do
 
 ```hcl
 module "vpc" {
-  source  = "volcengine/vpc/volcenginecc"
+  source  = "terraform-volcenginecc-modules/vpc/volcenginecc"
   version = "~> 1.0"
 
   create_vpc      = false
