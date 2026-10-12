@@ -17,7 +17,7 @@
 
 ```hcl
 module "vpc" {
-  source  = "volcengine/vpc/volcenginecc"
+  source  = "terraform-volcenginecc-modules/vpc/volcenginecc"
   version = "~> 1.0"
 
   name       = "example-vpc"
@@ -45,7 +45,7 @@ provider "volcenginecc" {
 
 ```hcl
 module "vpc" {
-  source  = "volcengine/vpc/volcenginecc"
+  source  = "terraform-volcenginecc-modules/vpc/volcenginecc"
   version = "~> 1.0"
 
   create_vpc      = false
