@@ -1,3 +1,56 @@
-# Secondary CIDR blocks
+# SECONDARY CIDR BLOCKS VPC Example
 
-Creates a VPC with one secondary IPv4 CIDR block. Volcengine supports at most one secondary IPv4 CIDR per VPC, and it must be a non-overlapping subnet from the same private address range as the primary CIDR. Use this example to validate add, refresh, and no-change behavior independently from other optional VPC settings.
+## Overview
+
+Runnable secondary-cidr-blocks configuration for the VPC module. It configures the provider from input variables and calls the published Registry module.
+
+## Usage
+
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
+```
+
+## Requirements
+
+| Name | Version |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| Name | Source |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## Resources
+
+| Name | Description |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | Published VPC module. |
+
+## Inputs
+
+| Name | Description |
+|---|---|
+| `region` | Module-defined region. |
+
+## Outputs
+
+| Name | Description |
+|---|---|
+| `vpc_id` | Module-defined vpc_id. |
+| `secondary_cidr_blocks` | Module-defined secondary_cidr_blocks. |
+
+## Examples
+
+This directory is the secondary-cidr-blocks example.
+
+## Notes
+
+- Supply credentials through supported provider configuration, never in source files.
+- The final plan after apply must report no changes before the configuration is accepted.

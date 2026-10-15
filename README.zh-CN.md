@@ -2,7 +2,7 @@
 
 基于 `volcenginecc` Provider 的 Terraform 模块，用于创建火山引擎 VPC，或读取一个显式指定的既有 VPC。
 
-## 概述
+## 1. 概述
 
 本模块仅管理 VPC 边界。它有意不创建子网、路由表、安全组、NAT 网关、EIP、互联网网关、流日志或 PrivateLink 终端节点。这些资源应通过其他模块、利用 `vpc_id` 输出来组合编排。
 
@@ -13,7 +13,9 @@
 
 切勿原地切换 `create_vpc`。从创建模式切到既有模式可能销毁已纳管的 VPC，而反向切换则会新建一个 VPC。应改用新的模块地址，或经过评审的 Terraform 状态/import 迁移。
 
-## 用法
+## 2. 用法
+
+### 2.1 创建 VPC
 
 ```hcl
 module "vpc" {
@@ -41,7 +43,7 @@ provider "volcenginecc" {
 
 请使用环境变量、profile 或其他支持的凭证来源。不要把访问密钥写入模块配置中。
 
-## 既有 VPC
+### 2.2 已有 VPC
 
 ```hcl
 module "vpc" {
@@ -55,7 +57,7 @@ module "vpc" {
 
 在既有模式下，创建相关输入必须保持未设置。这样可以避免配置看似被接受、实则被静默忽略。
 
-## 示例
+## 3. 示例
 
 - basic：创建一个最小化的 IPv4 VPC。
 - complete：覆盖 VPC 模块的全部稳定输入。
@@ -63,27 +65,27 @@ module "vpc" {
 - existing-vpc：读取一个显式指定的 VPC，不接管其归属。
 - ipv6-dualstack：创建一个 IPv4/IPv6 双栈 VPC，并自动分配 IPv6 CIDR。
 
-## 需求
+## 4. 版本要求
 
 | 名称 | 版本 |
 |---|---|
 | Terraform | `>= 1.5.0` |
 | `volcengine/volcenginecc` | `>= 0.0.60` |
 
-## Providers
+## 5. Provider
 
 | 名称 | 来源 |
 |---|---|
 | `volcenginecc` | `volcengine/volcenginecc` |
 
-## 资源
+## 6. 资源
 
 | 模式 | 类型 | 名称 |
 |---|---|---|
 | 创建 | Resource | `volcenginecc_vpc_vpc.this` |
 | 既有 | Data Source | `volcenginecc_vpc_vpc.existing` |
 
-## 输入
+## 7. 输入
 
 | 名称 | 类型 | 默认值 | 创建模式下是否必填 | 说明 |
 |---|---|---:|---:|---|
@@ -99,7 +101,7 @@ module "vpc" {
 | `project_name` | `string` | `null` | 否 | 项目名称。修改它会替换 VPC。 |
 | `tags` | `map(string)` | `null` | 否 | 设置时为非空的 VPC 标签。 |
 
-## 输出
+## 8. 输出
 
 | 名称 | 类型 | 说明 |
 |---|---|---|
@@ -118,7 +120,7 @@ module "vpc" {
 | `is_default` | `bool` | 该 VPC 是否为默认 VPC。 |
 | `status` | `string` | Provider 报告的 VPC 状态。 |
 
-## 说明
+## 9. 其他说明
 
 - `cidr_block` 与 `project_name` 是仅创建时可用的 Provider 字段。修改其中任意一个都会替换 VPC。
 - 本模块不会自动发现默认 VPC，因为当前的复数 VPC 数据源无法按 `is_default` 过滤。

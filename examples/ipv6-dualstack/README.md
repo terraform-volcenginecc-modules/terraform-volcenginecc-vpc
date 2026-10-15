@@ -1,5 +1,59 @@
-# IPv6 dual-stack example
+# IPV6 DUALSTACK VPC Example
 
-This example creates a VPC with a private IPv4 CIDR and asks Volcengine to allocate an IPv6 CIDR automatically.
+## Overview
 
-Treat `enable_ipv6` as a creation-time setting with Provider `0.0.60`. Do not toggle it in place on a production VPC.
+Runnable ipv6-dualstack configuration for the VPC module. It configures the provider from input variables and calls the published Registry module.
+
+## Usage
+
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
+```
+
+## Requirements
+
+| Name | Version |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| Name | Source |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## Resources
+
+| Name | Description |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | Published VPC module. |
+
+## Inputs
+
+| Name | Description |
+|---|---|
+| `region` | Module-defined region. |
+| `name` | Module-defined name. |
+| `cidr_block` | Module-defined cidr_block. |
+
+## Outputs
+
+| Name | Description |
+|---|---|
+| `vpc_id` | Module-defined vpc_id. |
+| `ipv4_cidr_block` | Module-defined ipv4_cidr_block. |
+| `ipv6_cidr_block` | Module-defined ipv6_cidr_block. |
+
+## Examples
+
+This directory is the ipv6-dualstack example.
+
+## Notes
+
+- Supply credentials through supported provider configuration, never in source files.
+- The final plan after apply must report no changes before the configuration is accepted.

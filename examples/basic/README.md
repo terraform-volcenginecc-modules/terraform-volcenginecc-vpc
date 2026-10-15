@@ -1,6 +1,10 @@
-# Basic VPC
+# BASIC VPC Example
 
-Creates a minimal IPv4 VPC with a name, CIDR, and tags.
+## Overview
+
+Runnable basic configuration for the VPC module. It configures the provider from input variables and calls the published Registry module.
+
+## Usage
 
 ```shell
 terraform init
@@ -10,4 +14,45 @@ terraform plan
 terraform destroy
 ```
 
-The plan immediately after apply must report no changes. Configure credentials through supported Provider environment variables or a profile; do not add credentials to these files.
+## Requirements
+
+| Name | Version |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| Name | Source |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## Resources
+
+| Name | Description |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | Published VPC module. |
+
+## Inputs
+
+| Name | Description |
+|---|---|
+| `region` | Module-defined region. |
+| `name` | Module-defined name. |
+| `cidr_block` | Module-defined cidr_block. |
+
+## Outputs
+
+| Name | Description |
+|---|---|
+| `vpc_id` | Module-defined vpc_id. |
+| `cidr_block` | Module-defined cidr_block. |
+
+## Examples
+
+This directory is the basic example.
+
+## Notes
+
+- Supply credentials through supported provider configuration, never in source files.
+- The final plan after apply must report no changes before the configuration is accepted.
