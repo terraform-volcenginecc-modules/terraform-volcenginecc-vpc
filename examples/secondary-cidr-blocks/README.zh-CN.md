@@ -1,3 +1,56 @@
-# 辅助 CIDR 块
+# SECONDARY CIDR BLOCKS VPC 示例
 
-创建一个带有一个辅助 IPv4 CIDR 块的 VPC。火山引擎每个 VPC 最多支持一个辅助 IPv4 CIDR，且它必须是与主 CIDR 同属一个私有地址范围、互不重叠的子网。使用本示例可独立于其他可选 VPC 设置，单独验证新增、刷新以及无变更行为。
+## 概述
+
+VPC 模块的可运行 secondary-cidr-blocks 配置。它从输入变量设置 Provider，并调用已发布的 Registry 模块。
+
+## 用法
+
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
+```
+
+## 依赖要求
+
+| 名称 | 版本 |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| 名称 | 来源 |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## 资源
+
+| 名称 | 说明 |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | 已发布的 VPC 模块。 |
+
+## 输入
+
+| 名称 | 说明 |
+|---|---|
+| `region` | 模块定义的 region。 |
+
+## 输出
+
+| 名称 | 说明 |
+|---|---|
+| `vpc_id` | 模块定义的 vpc_id。 |
+| `secondary_cidr_blocks` | 模块定义的 secondary_cidr_blocks。 |
+
+## 示例
+
+本目录即为 secondary-cidr-blocks 示例。
+
+## 说明
+
+- 请通过 Provider 支持的配置提供凭据，绝不应写入源文件。
+- apply 后的最终 plan 必须报告无变更，才能接受该配置。

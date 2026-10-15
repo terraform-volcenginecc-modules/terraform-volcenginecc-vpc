@@ -2,7 +2,7 @@
 
 Terraform module for creating a Volcengine VPC or reading an explicitly identified existing VPC with the `volcenginecc` provider.
 
-## Overview
+## 1. Overview
 
 This module manages the VPC boundary only. It intentionally does not create subnets, route tables, security groups, NAT gateways, EIPs, Internet gateways, flow logs, or PrivateLink endpoints. Those resources should be composed through separate modules by using the `vpc_id` output.
 
@@ -13,7 +13,9 @@ The module supports two ownership modes:
 
 Do not toggle `create_vpc` in place. Changing from create mode to existing mode may destroy the managed VPC, while the reverse transition creates a new VPC. Use a new module address or a reviewed Terraform state/import migration instead.
 
-## Usage
+## 2. Usage
+
+### 2.1 Create a VPC
 
 ```hcl
 module "vpc" {
@@ -41,7 +43,7 @@ provider "volcenginecc" {
 
 Use environment variables, a profile, or another supported credential source. Do not put access keys in module configuration.
 
-## Existing VPC
+### 2.2 Existing VPC
 
 ```hcl
 module "vpc" {
@@ -55,7 +57,7 @@ module "vpc" {
 
 Creation inputs must remain unset in existing mode. This prevents configuration from appearing accepted while being silently ignored.
 
-## Examples
+## 3. Examples
 
 - basic: creates a minimal IPv4 VPC.
 - complete: covers the stable VPC inputs.
@@ -63,27 +65,27 @@ Creation inputs must remain unset in existing mode. This prevents configuration 
 - existing-vpc: reads an explicitly identified VPC without taking ownership.
 - ipv6-dualstack: creates an IPv4/IPv6 dual-stack VPC with an automatically allocated IPv6 CIDR.
 
-## Requirements
+## 4. Requirements
 
 | Name | Version |
 |---|---|
 | Terraform | `>= 1.5.0` |
 | `volcengine/volcenginecc` | `>= 0.0.60` |
 
-## Providers
+## 5. Providers
 
 | Name | Source |
 |---|---|
 | `volcenginecc` | `volcengine/volcenginecc` |
 
-## Resources
+## 6. Resources
 
 | Mode | Type | Name |
 |---|---|---|
 | Create | Resource | `volcenginecc_vpc_vpc.this` |
 | Existing | Data Source | `volcenginecc_vpc_vpc.existing` |
 
-## Inputs
+## 7. Inputs
 
 | Name | Type | Default | Required in create mode | Description |
 |---|---|---:|---:|---|
@@ -99,7 +101,7 @@ Creation inputs must remain unset in existing mode. This prevents configuration 
 | `project_name` | `string` | `null` | No | Project name. Changing it replaces the VPC. |
 | `tags` | `map(string)` | `null` | No | Non-empty VPC tags when set. |
 
-## Outputs
+## 8. Outputs
 
 | Name | Type | Description |
 |---|---|---|
@@ -118,7 +120,7 @@ Creation inputs must remain unset in existing mode. This prevents configuration 
 | `is_default` | `bool` | Whether the VPC is the default VPC. |
 | `status` | `string` | Provider-reported VPC status. |
 
-## Notes
+## 9. Notes
 
 - `cidr_block` and `project_name` are create-only Provider fields. Changing either replaces the VPC.
 - The module does not automatically discover the default VPC because the current plural VPC data source cannot filter by `is_default`.

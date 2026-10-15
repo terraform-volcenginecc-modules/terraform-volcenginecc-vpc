@@ -1,9 +1,69 @@
-# Complete VPC
+# COMPLETE VPC Example
 
-Exercises all stable inputs of the VPC-only module: name, description, primary and secondary IPv4 CIDRs, an automatically allocated IPv6 CIDR, user CIDRs, optional DNS servers, optional project assignment, and tags.
+## Overview
 
-The example sets `enable_ipv6 = true`. Treat IPv6 enablement as a creation-time setting; do not toggle it in place on a production VPC.
+Runnable complete configuration for the VPC module. It configures the provider from input variables and calls the published Registry module.
 
-`dns_servers = null` intentionally uses the service default. Pass up to five reachable DNS IP addresses when custom DNS is required.
+## Usage
 
-Run apply, then run plan again and require a no-change result before destroying the example.
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
+```
+
+## Requirements
+
+| Name | Version |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| Name | Source |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## Resources
+
+| Name | Description |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | Published VPC module. |
+
+## Inputs
+
+| Name | Description |
+|---|---|
+| `region` | Module-defined region. |
+| `name` | Module-defined name. |
+| `cidr_block` | Module-defined cidr_block. |
+| `dns_servers` | Module-defined dns_servers. |
+| `project_name` | Module-defined project_name. |
+
+## Outputs
+
+| Name | Description |
+|---|---|
+| `vpc_id` | Module-defined vpc_id. |
+| `vpc_name` | Module-defined vpc_name. |
+| `cidr_block` | Module-defined cidr_block. |
+| `enable_ipv6` | Module-defined enable_ipv6. |
+| `ipv6_cidr_block` | Module-defined ipv6_cidr_block. |
+| `secondary_cidr_blocks` | Module-defined secondary_cidr_blocks. |
+| `user_cidr_blocks` | Module-defined user_cidr_blocks. |
+| `project_name` | Module-defined project_name. |
+| `tags` | Module-defined tags. |
+| `route_table_ids` | Module-defined route_table_ids. |
+| `status` | Module-defined status. |
+
+## Examples
+
+This directory is the complete example.
+
+## Notes
+
+- Supply credentials through supported provider configuration, never in source files.
+- The final plan after apply must report no changes before the configuration is accepted.

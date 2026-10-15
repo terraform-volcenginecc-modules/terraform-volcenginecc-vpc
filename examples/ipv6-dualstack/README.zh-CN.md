@@ -1,5 +1,59 @@
-# IPv6 双栈示例
+# IPV6 DUALSTACK VPC 示例
 
-本示例创建一个带私有 IPv4 CIDR 的 VPC，并请求火山引擎自动分配一个 IPv6 CIDR。
+## 概述
 
-在 Provider `0.0.60` 下，应将 `enable_ipv6` 视为创建时的一次性设置。切勿在生产 VPC 上原地切换该开关。
+VPC 模块的可运行 ipv6-dualstack 配置。它从输入变量设置 Provider，并调用已发布的 Registry 模块。
+
+## 用法
+
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
+```
+
+## 依赖要求
+
+| 名称 | 版本 |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| 名称 | 来源 |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## 资源
+
+| 名称 | 说明 |
+|---|---|
+| `terraform-volcenginecc-modules/vpc/volcenginecc` | 已发布的 VPC 模块。 |
+
+## 输入
+
+| 名称 | 说明 |
+|---|---|
+| `region` | 模块定义的 region。 |
+| `name` | 模块定义的 name。 |
+| `cidr_block` | 模块定义的 cidr_block。 |
+
+## 输出
+
+| 名称 | 说明 |
+|---|---|
+| `vpc_id` | 模块定义的 vpc_id。 |
+| `ipv4_cidr_block` | 模块定义的 ipv4_cidr_block。 |
+| `ipv6_cidr_block` | 模块定义的 ipv6_cidr_block。 |
+
+## 示例
+
+本目录即为 ipv6-dualstack 示例。
+
+## 说明
+
+- 请通过 Provider 支持的配置提供凭据，绝不应写入源文件。
+- apply 后的最终 plan 必须报告无变更，才能接受该配置。
